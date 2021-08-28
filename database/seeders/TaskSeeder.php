@@ -18,8 +18,8 @@ class TaskSeeder extends Seeder
 
             [
                 'id' => 1,
-                'title' => "labeiales",
-                'body' => 'hola',
+                'title' => "Docker junto a Cpanel",
+                'body' => 'https://nocinit.com/blog/how-to-install-docker-on-cpanel-servers-tutorial/',
                 'updated_at' => date('Y-m-d H:i:s'),
                 'created_at' => date('Y-m-d H:i:s'),                 
             ],
