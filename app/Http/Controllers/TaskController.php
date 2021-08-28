@@ -17,7 +17,8 @@ class TaskController extends ApiController
         'body' => 'required|string|max:1000'
     ];
 
-    function __construct() {
-        $this->SetLabels("Task");
+    public function __construct()
+    {
+        $this->setLabels("Task");
     }
 }
