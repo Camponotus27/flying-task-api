@@ -32,7 +32,7 @@ class ApiController extends Controller
         if (!$this->model) {
             return $this->noModelResponse();
         }
-        $local_models = $this->model::paginate();
+        $local_models = $this->model::paginate(100);
         return $this->successResponse(new GenericCollection($local_models));
     }
 
