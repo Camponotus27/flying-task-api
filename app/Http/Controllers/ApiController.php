@@ -32,7 +32,7 @@ class ApiController extends Controller
         if (!$this->model) {
             return $this->noModelResponse();
         }
-        $local_models = $this->model::paginate(100);
+        $local_models = $this->model::Index()->paginate(100);
         return $this->successResponse(new GenericCollection($local_models));
     }
 
@@ -103,7 +103,8 @@ class ApiController extends Controller
         if ($loca_model) {
             $loca_model->fill(request()->all());
             $loca_model->save();
-            return $this->successResponse(new GenericResource($loca_model), $this->label_model . '  Update successfully');
+            return $this->successResponse(new GenericResource($loca_model), $this->label_model
+            . '  Update successfully');
         }
         return $this->errorResponse($this->label_model . ' not found', 404);
     }
