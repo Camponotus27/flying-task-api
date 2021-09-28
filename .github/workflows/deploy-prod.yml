@@ -1,33 +1,36 @@
-name: Deploy Prod
-
 on:
   push:
-    branches: [main]
+    paths:
+      - "Dockerfile"
+      - ".github/workflows/**"
 jobs:
   build:
     runs-on: ubuntu-latest
-
     steps:
-      - uses: actions/checkout@v1
+      - name: Checkout master
+        uses: actions/checkout@main
 
-      - uses: php-actions/composer@v6
-
-      - name: Copy repository contents via scp
-        uses: appleboy/scp-action@master
-        env:
-          HOST: ${{ secrets.HOST }}
-          USERNAME: ${{ secrets.USERNAME }}
-          PORT: ${{ secrets.PORT }}
-          KEY: ${{ secrets.SSHKEY }}
+      - name: Install doctl
+        uses: digitalocean/action-doctl@v2
         with:
-          source: "."
-          target: "/home/limonayc/public_html/laravel/task-fly"
+          token: ${{ secrets.DIGITALOCEAN_ACCESS_TOKEN }}
+      - name: Build container image
+        run: docker build -t registry.digitalocean.com/<registry-name>/<repository_name>:$(echo $GITHUB_SHA | head -c7) .
 
-      - name: Executing remote command
-        uses: appleboy/ssh-action@master
-        with:
-          host: ${{ secrets.HOST }}
-          USERNAME: ${{ secrets.USERNAME }}
-          PORT: ${{ secrets.PORT }}
-          KEY: ${{ secrets.SSHKEY }}
-          script: ls
+      - name: Log in to DigitalOcean Container Registry with short-lived credentials
+        run: doctl registry login --expiry-seconds 1200
+
+      - name: Push image to DigitalOcean Container Registry
+        run: docker push registry.digitalocean.com/<registry-name>/<repository_name>:$(echo $GITHUB_SHA | head -c7)
+
+      - name: Update deployment file
+        run: TAG=$(echo $GITHUB_SHA | head -c7) && sed -i 's|<IMAGE>|registry.digitalocean.com/<registry-name>/<repository_name>:'${TAG}'|' $GITHUB_WORKSPACE/config/deployment.yml
+
+      - name: Save DigitalOcean kubeconfig with short-lived credentials
+        run: doctl kubernetes cluster kubeconfig save --expiry-seconds 600 <cluster-name>
+
+      - name: Deploy to DigitalOcean Kubernetes
+        run: kubectl apply -f $GITHUB_WORKSPACE/config/deployment.yml
+
+      - name: Verify deployment
+        run: kubectl rollout status deployment/<deployment_name>
