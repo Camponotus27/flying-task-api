@@ -22,11 +22,5 @@ jobs:
           source: "."
           target: "/var/www/flying-task-api.staging.sebacz.com"
 
-      - name: Executing remote command
-        uses: appleboy/ssh-action@master
-        with:
-          host: ${{ secrets.HOST }}
-          USERNAME: ${{ secrets.USERNAME }}
-          PORT: ${{ secrets.PORT }}
-          KEY: ${{ secrets.SSHKEY }}
-          script: ls
+      - name: Executing migrations
+        run: php artisan migrate:fresh --seed
