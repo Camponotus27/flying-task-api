@@ -23,4 +23,4 @@ jobs:
           target: "/var/www/flying-task-api.staging.sebacz.com"
 
       - name: Executing migrations
-        run: php artisan migrate:fresh --seed
+        run: php artisan migrate:fresh --seed --force
