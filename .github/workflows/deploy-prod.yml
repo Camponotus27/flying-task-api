@@ -2,7 +2,7 @@ name: Deploy Prod
 
 on:
   push:
-    branches: [main, githubvps-digital-ocean]
+    branches: [main]
 jobs:
   build:
     runs-on: ubuntu-latest
