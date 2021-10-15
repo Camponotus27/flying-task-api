@@ -21,7 +21,7 @@ jobs:
           KEY: ${{ secrets.SSHKEY }}
         with:
           source: "."
-          target: "/home/limonayc/public_html/laravel/task-fly"
+          target: "/var/www/flying-task-api.sebacz.com"
 
       - name: Executing remote command
         uses: appleboy/ssh-action@master
