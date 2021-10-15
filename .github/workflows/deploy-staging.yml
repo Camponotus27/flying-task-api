@@ -22,5 +22,11 @@ jobs:
           source: "."
           target: "/var/www/flying-task-api.staging.sebacz.com"
 
-      - name: Executing migrations
-        run: php artisan migrate:fresh --seed --force
+      - name: Executing migration
+        uses: appleboy/ssh-action@master
+        with:
+          host: ${{ secrets.HOST }}
+          USERNAME: ${{ secrets.USERNAME }}
+          PORT: ${{ secrets.PORT }}
+          KEY: ${{ secrets.SSHKEY }}
+          script: cd /var/www/flying-task-api.staging.sebacz.com || php artisan migrate:fresh --seed
