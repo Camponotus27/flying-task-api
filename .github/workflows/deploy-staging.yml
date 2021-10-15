@@ -1,6 +1,6 @@
-name: Deploy Prod
+name: Deploy Staging
 
-on: [pull_request]
+on: [push, pull_request]
 
 jobs:
   build:
