@@ -20,4 +20,4 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
 });
 
 
-Route::resource('task', TaskController::class, ['except'=>['create','edit']]);
+Route::resource('task', TaskController::class, [ 'except' => ['create','edit']]);
