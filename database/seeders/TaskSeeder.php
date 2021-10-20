@@ -21,7 +21,7 @@ class TaskSeeder extends Seeder
                 'title' => "Docker junto a Cpanel",
                 'body' => 'https://nocinit.com/blog/how-to-install-docker-on-cpanel-servers-tutorial/',
                 'updated_at' => date('Y-m-d H:i:s'),
-                'created_at' => date('Y-m-d H:i:s'),                 
+                'created_at' => date('Y-m-d H:i:s'),
             ],
             [
                 'id' => 2,
@@ -51,6 +51,6 @@ class TaskSeeder extends Seeder
                 'updated_at' => date('Y-m-d H:i:s'),
                 'created_at' => date('Y-m-d H:i:s'),
             ],
-      ]);
+        ]);
     }
 }

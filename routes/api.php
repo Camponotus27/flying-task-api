@@ -3,6 +3,7 @@
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\TaskController;
+use App\Http\Controllers\EnglishDictionaryController;
 
 /*
 |--------------------------------------------------------------------------
@@ -21,3 +22,4 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
 
 
 Route::resource('task', TaskController::class, [ 'except' => ['create','edit']]);
+Route::resource('english-dictionary', EnglishDictionaryController::class, [ 'except' => ['create','edit']]);
