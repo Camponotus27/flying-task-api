@@ -16,9 +16,9 @@ class CreateEnglishDictionariesTable extends Migration
         Schema::create('english_dictionaries', function (Blueprint $table) {
             $table->id();
             $table->string('word');
-            $table->string('pronunciation');
-            $table->text('significance');
-            $table->text('note');
+            $table->string('pronunciation')->nullable();
+            $table->text('significance')->nullable();
+            $table->text('note')->nullable();
             $table->timestamps();
             $table->softDeletes();
         });
