@@ -27,19 +27,26 @@ class ApiController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
         if (!$this->model) {
             return $this->noModelResponse();
         }
-        $local_models = $this->model::Index()->paginate(100);
+        $search = $request->get('search');
+        $local_models;
+        if($search){
+            $local_models = $this->model::search($search)->index()->paginate(100);
+        }
+        else{
+            $local_models = $this->model::index()->paginate(100);
+        }
         return $this->successResponse(new GenericCollection($local_models));
     }
 
     /**
      * Display the specified resource.
      *
-     * @param  \App\Models\Model $task
+     * @param  int $id
      * @return \Illuminate\Http\Response
      */
     public function show($id)
